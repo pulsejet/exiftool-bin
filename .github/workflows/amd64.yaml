@@ -1,0 +1,43 @@
+name: Build glibc binaries
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  build-amd64:
+    name: Build amd64-{{ matrix.clib }}
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        include:
+          - container: ubuntu:18.04
+            clib: glibc
+          - container: alpine:latest
+            clib: musl
+
+    container:
+      image: ${{ matrix.container }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Build on Ubuntu
+        if: ${{ matrix.container == 'ubuntu:18.04' }}
+        run: ./build-ubuntu.sh
+
+      - name: Build on Alpine
+        if: ${{ matrix.container == 'alpine:latest' }}
+        run: apk add bash && ./build-alpine.sh
+
+      - name: Upload to releases
+        uses: svenstaro/upload-release-action@v2
+        id: attach_to_release
+        with:
+          file: exiftool.exe
+          asset_name: exiftool-${{ matrix.clib }}-amd64
+          tag: ${{ github.ref }}
+          overwrite: true
