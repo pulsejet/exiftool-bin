@@ -46,7 +46,7 @@ jobs:
             ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -replace ${CIRCLE_TAG} ./artifacts/
 
 workflows:
-  aarch64-glibc:
+  build-glibc:
     jobs:
       - build-glibc:
           filters:
@@ -63,7 +63,7 @@ workflows:
             tags:
               only: /^.*/
 
-  aarch64-musl:
+  build-musl:
     jobs:
       - build-musl:
           filters:
