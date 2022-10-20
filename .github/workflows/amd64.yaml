@@ -27,14 +27,11 @@ jobs:
 
       - name: Add ubuntu dependencies
         if: ${{ matrix.container == 'ubuntu:18.04' }}
-        run: ./build-ubuntu.sh
+        run: bash build-ubuntu.sh
 
       - name: Add alpine dependencies
         if: ${{ matrix.container == 'alpine:latest' }}
-        run: ./build-alpine.sh
-
-      - name: Build
-        run: ./build.sh
+        run: sh build-alpine.sh
 
       - name: Upload to releases
         uses: svenstaro/upload-release-action@v2

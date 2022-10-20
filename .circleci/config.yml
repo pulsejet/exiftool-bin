@@ -9,7 +9,7 @@ jobs:
       - checkout
 
       - run: |
-          sudo sh build-ubuntu.sh
+          docker run -it --rm -v "$PWD":/work -w /work ubuntu:18.04 bash build-ubuntu.sh
           sudo mv exiftool.exe exiftool-aarch64-glibc
 
       - persist_to_workspace:
