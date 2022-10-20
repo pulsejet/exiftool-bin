@@ -34,6 +34,7 @@ jobs:
       - name: Add alpine dependencies
         if: ${{ matrix.container == 'alpine:latest' }}
         run: |
+          apk update
           apk add bash curl wget make gcc perl perl-utils perl-dev unzip musl-dev
 
       - name: Build
