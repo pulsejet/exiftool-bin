@@ -6,6 +6,7 @@ jobs:
       image: ubuntu-2004:202101-01
     resource_class: arm.medium
     steps:
+      - checkout
       - run: |
           sudo apt-get update
           sudo apt-get install -y make gcc libperl-dev wget curl sudo unzip zip git
