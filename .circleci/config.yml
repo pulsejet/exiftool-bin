@@ -9,8 +9,8 @@ jobs:
       - checkout
 
       - run: |
-          sh build-ubuntu.sh
-          mv exiftool.exe exiftool-aarch64-glibc
+          sudo sh build-ubuntu.sh
+          sudo mv exiftool.exe exiftool-aarch64-glibc
 
       - persist_to_workspace:
           root: .
