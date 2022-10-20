@@ -25,11 +25,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Add ubuntu dependencies
+      - name: Ubuntu Build
         if: ${{ matrix.container == 'ubuntu:18.04' }}
         run: bash build-ubuntu.sh
 
-      - name: Add alpine dependencies
+      - name: Alpine Build
         if: ${{ matrix.container == 'alpine:latest' }}
         run: sh build-alpine.sh
 
