@@ -5,10 +5,10 @@ sudo apt update
 sudo apt install make gcc libperl-dev wget curl
 
 # Install cpanm
-curl -L http://cpanmin.us | perl - --self-upgrade
+sudo curl -L http://cpanmin.us | perl - --self-upgrade
 
 # Perl modules
-cpanm Archive::Zip PAR PAR::Packer IO::String
+sudo cpanm Archive::Zip PAR PAR::Packer IO::String
 
 # Get repo
 wget -O exiftool.zip https://github.com/exiftool/exiftool/archive/refs/tags/12.49.zip
