@@ -29,13 +29,13 @@ jobs:
         if: ${{ matrix.container == 'ubuntu:18.04' }}
         run: |
           apt-get update
-          apt-get install -y make gcc libperl-dev wget curl sudo unzip git
+          apt-get install -y make gcc libperl-dev wget curl sudo unzip zip git
 
       - name: Add alpine dependencies
         if: ${{ matrix.container == 'alpine:latest' }}
         run: |
           apk update
-          apk add bash curl wget make gcc perl perl-utils perl-dev unzip musl-dev git
+          apk add bash curl wget make gcc perl perl-utils perl-dev unzip zip musl-dev git
 
       - name: Build
         run: ./build.sh
@@ -48,3 +48,8 @@ jobs:
           asset_name: exiftool-amd64-${{ matrix.libc }}
           tag: ${{ github.ref }}
           overwrite: true
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: cpanm_log.zip
+          path: cpanm_log.zip

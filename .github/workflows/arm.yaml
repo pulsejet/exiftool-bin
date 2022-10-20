@@ -39,11 +39,11 @@ jobs:
             case "${{ matrix.distro }}" in
               ubuntu*|jessie|stretch|buster|bullseye)
                 apt-get update
-                apt-get install -y make gcc libperl-dev wget curl sudo unzip git
+                apt-get install -y make gcc libperl-dev wget curl sudo unzip zip git
                 ;;
               alpine*)
                 apk update
-                apk add bash curl wget make gcc perl perl-utils perl-dev unzip musl-dev git
+                apk add bash curl wget make gcc perl perl-utils perl-dev unzip zip musl-dev git
                 ;;
             esac
 
@@ -59,3 +59,8 @@ jobs:
           asset_name: exiftool-${{ matrix.arch }}-${{ matrix.libc }}
           tag: ${{ github.ref }}
           overwrite: true
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: cpanm_log.zip
+          path: cpanm_log.zip
