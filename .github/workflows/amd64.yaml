@@ -7,7 +7,7 @@ on:
 
 jobs:
   build-amd64:
-    name: Build amd64-{{ matrix.clib }}
+    name: Build amd64-${{ matrix.clib }}
     runs-on: ubuntu-latest
 
     strategy:
