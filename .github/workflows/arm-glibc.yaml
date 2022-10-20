@@ -1,0 +1,61 @@
+name: arm
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  build_job:
+    name: Build on ${{ matrix.distro }} ${{ matrix.arch }}
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        include:
+          - arch: aarch64
+            distro: ubuntu18.04
+            clib: glibc
+
+    steps:
+      - uses: actions/checkout@v2.1.0
+      - uses: uraimo/run-on-arch-action@v2
+        name: ${{ matrix.arch }}-${{ matrix.clib }}
+        with:
+          arch: ${{ matrix.arch }}
+          distro: ${{ matrix.distro }}
+
+          # Not required, but speeds up builds
+          githubToken: ${{ github.token }}
+
+          # Create an artifacts directory
+          setup: |
+            mkdir -p "${PWD}/"
+          dockerRunArgs: |
+            --volume "${PWD}/:/work"
+
+          shell: /bin/sh
+          install: |
+            case "${{ matrix.distro }}" in
+              ubuntu*|jessie|stretch|buster|bullseye)
+                apt-get update
+                apt-get install -y make gcc libperl-dev wget curl sudo unzip git
+                ;;
+              alpine*)
+                apk update
+                apk add bash curl wget make gcc perl perl-utils perl-dev unzip musl-dev git
+                ;;
+            esac
+
+          run: |
+            cd /work
+            ./build.sh
+
+      - name: Upload to releases
+        uses: svenstaro/upload-release-action@v2
+        id: attach_to_release
+        with:
+          file: exiftool.exe
+          asset_name: exiftool-${{ matrix.arch }}-${{ matrix.clib }}
+          tag: ${{ github.ref }}
+          overwrite: true

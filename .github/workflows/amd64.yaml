@@ -29,13 +29,13 @@ jobs:
         if: ${{ matrix.container == 'ubuntu:18.04' }}
         run: |
           apt-get update
-          apt-get install -y make gcc libperl-dev wget curl sudo unzip
+          apt-get install -y make gcc libperl-dev wget curl sudo unzip git
 
       - name: Add alpine dependencies
         if: ${{ matrix.container == 'alpine:latest' }}
         run: |
           apk update
-          apk add bash curl wget make gcc perl perl-utils perl-dev unzip musl-dev
+          apk add bash curl wget make gcc perl perl-utils perl-dev unzip musl-dev git
 
       - name: Build
         run: ./build.sh
