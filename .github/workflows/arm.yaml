@@ -7,7 +7,7 @@ on:
 
 jobs:
   arm:
-    name: ${{ matrix.arch }}-${{ matrix.clib }}
+    name: ${{ matrix.arch }}-${{ matrix.libc }}
     runs-on: ubuntu-latest
 
     strategy:
@@ -15,12 +15,12 @@ jobs:
         include:
           - arch: aarch64
             distro: ubuntu18.04
-            clib: glibc
+            libc: glibc
 
     steps:
       - uses: actions/checkout@v2.1.0
       - uses: uraimo/run-on-arch-action@v2
-        name: ${{ matrix.arch }}-${{ matrix.clib }}
+        name: ${{ matrix.arch }}-${{ matrix.libc }}
         with:
           arch: ${{ matrix.arch }}
           distro: ${{ matrix.distro }}
@@ -56,6 +56,6 @@ jobs:
         id: attach_to_release
         with:
           file: exiftool.exe
-          asset_name: exiftool-${{ matrix.arch }}-${{ matrix.clib }}
+          asset_name: exiftool-${{ matrix.arch }}-${{ matrix.libc }}
           tag: ${{ github.ref }}
           overwrite: true

@@ -7,16 +7,16 @@ on:
 
 jobs:
   build-amd64:
-    name: amd64-${{ matrix.clib }}
+    name: amd64-${{ matrix.libc }}
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
         include:
           - container: ubuntu:18.04
-            clib: glibc
+            libc: glibc
           - container: alpine:latest
-            clib: musl
+            libc: musl
 
     container:
       image: ${{ matrix.container }}
@@ -45,6 +45,6 @@ jobs:
         id: attach_to_release
         with:
           file: exiftool.exe
-          asset_name: exiftool-amd64-${{ matrix.clib }}
+          asset_name: exiftool-amd64-${{ matrix.libc }}
           tag: ${{ github.ref }}
           overwrite: true
