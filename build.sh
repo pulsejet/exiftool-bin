@@ -4,10 +4,6 @@
 GIT_TAG=`echo $(git describe --tags --abbrev=0)`
 echo "Tag is $GIT_TAG"
 
-# Dependencies
-apt-get update
-apt-get install -y make gcc libperl-dev wget curl sudo unzip
-
 # Install cpanm
 curl -L http://cpanmin.us | perl - --self-upgrade
 
