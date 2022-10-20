@@ -1,16 +1,19 @@
 version: 2.1
 
 jobs:
-  build-medium:
+  build-glibc:
     machine:
       image: ubuntu-2004:202101-01
     resource_class: arm.medium
     steps:
       - checkout
       - run: |
-          sudo apt-get update
-          sudo apt-get install -y make gcc libperl-dev wget curl sudo unzip zip git
-          sudo ./build.sh
+          #sudo apt-get update
+          #sudo apt-get install -y make gcc libperl-dev wget curl sudo unzip zip git
+          #sudo ./build.sh
+          #sudo mv exiftool.exe exiftool-amd64-glibc
+          sudo mv build.sh exiftool-amd64-glibc
+          sudo ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -replace ${CIRCLE_TAG} exiftool-aarch64-glibc
 
       - store_artifacts:
           destination: cpanm-log-glibc.zip
@@ -19,4 +22,7 @@ jobs:
 workflows:
   build:
     jobs:
-      - build-medium
+      - build-glibc:
+          filters:
+              tags:
+                only: /.*/
