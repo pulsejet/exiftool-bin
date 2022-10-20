@@ -16,7 +16,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - run: ./build-alpine.sh
+      - run: ls && ./build-alpine.sh
 
       - name: Upload to releases
         uses: svenstaro/upload-release-action@v2
