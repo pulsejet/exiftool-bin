@@ -14,7 +14,6 @@ jobs:
           #sudo ./build.sh
           #sudo mv exiftool.exe exiftool-amd64-glibc
           sudo mv build.sh exiftool-amd64-glibc
-          sudo ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -replace ${CIRCLE_TAG} exiftool-aarch64-glibc
 
       - persist_to_workspace:
           root: .
