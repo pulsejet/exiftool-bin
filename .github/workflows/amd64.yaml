@@ -1,4 +1,4 @@
-name: Build glibc binaries
+name: amd64
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
 
 jobs:
   build-amd64:
-    name: Build amd64-${{ matrix.clib }}
+    name: amd64-${{ matrix.clib }}
     runs-on: ubuntu-latest
 
     strategy:
