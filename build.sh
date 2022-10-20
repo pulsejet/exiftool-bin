@@ -9,7 +9,7 @@ curl -L http://cpanmin.us | perl - --self-upgrade
 
 # Perl modules
 cpanm Archive::Zip PAR PAR::Packer IO::String
-zip -r cpanm_log.zip /root/.cpanm/work
+zip -y -r cpanm_log.zip ~/.cpanm/
 
 # Get repo
 wget -O exiftool.zip https://github.com/exiftool/exiftool/archive/refs/tags/12.49.zip
