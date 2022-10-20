@@ -6,8 +6,8 @@ on:
       - '*'
 
 jobs:
-  build_job:
-    name: Build on ${{ matrix.distro }} ${{ matrix.arch }}
+  arm:
+    name: ${{ matrix.arch }}-${{ matrix.clib }}
     runs-on: ubuntu-latest
 
     strategy:
