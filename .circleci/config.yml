@@ -1,28 +1,37 @@
 version: 2.1
 
 jobs:
-  build:
+  build-glibc:
     machine:
-      image: ubuntu-2004:202101-01
+      image: ubuntu-2004:current
     resource_class: arm.medium
     steps:
       - checkout
 
       - run: |
-          #sudo apt-get update
-          #sudo apt-get install -y make gcc libperl-dev wget curl sudo unzip zip git
-          #sudo ./build.sh
-          #sudo mv exiftool.exe exiftool-amd64-glibc
-          sudo mv build.sh exiftool-amd64-glibc
+          sh build-ubuntu.sh
+          mv exiftool.exe exiftool-aarch64-glibc
 
       - persist_to_workspace:
           root: .
           paths:
-            - exiftool-amd64-glibc
+            - exiftool-aarch64-glibc
 
-      - store_artifacts:
-          destination: cpanm-log-glibc.zip
-          path: cpanm-log.zip
+  build-musl:
+    machine:
+      image: ubuntu-2004:current
+    resource_class: arm.medium
+    steps:
+      - checkout
+
+      - run: |
+          docker run -it --rm -v "$PWD":/work -w /work alpine:latest sh build-alpine.sh
+          mv exiftool.exe exiftool-aarch64-musl
+
+      - persist_to_workspace:
+          root: .
+          paths:
+            - exiftool-aarch64-musl
 
   publish-github-release:
     docker:
@@ -37,9 +46,26 @@ jobs:
             ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -replace ${CIRCLE_TAG} ./artifacts/
 
 workflows:
-  build:
+  build-glibc:
     jobs:
-      - build:
+      - build-glibc:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^v.*/
+      - publish-github-release:
+          requires:
+            - build
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^v.*/
+
+  build-musl:
+    jobs:
+      - build-musl:
           filters:
             branches:
               ignore: /.*/
