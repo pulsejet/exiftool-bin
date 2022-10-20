@@ -1,10 +1,5 @@
 #!/bin/bash
 
-# Get tag
-git config --global --add safe.directory '*'
-GIT_TAG=`echo $(git describe --tags --abbrev=0)`
-echo "Tag is $GIT_TAG"
-
 # Install cpanm
 curl -L http://cpanmin.us | perl - --self-upgrade
 

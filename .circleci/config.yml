@@ -35,7 +35,7 @@ jobs:
 
   publish-github-release:
     docker:
-      - image: circleci/golang:1.17
+      - image: cimg/go:1.18
     steps:
       - attach_workspace:
           at: ./artifacts
@@ -53,7 +53,7 @@ workflows:
             branches:
               ignore: /.*/
             tags:
-              only: /^v.*/
+              only: /^.*/
       - publish-github-release:
           requires:
             - build-glibc
@@ -61,7 +61,7 @@ workflows:
             branches:
               ignore: /.*/
             tags:
-              only: /^v.*/
+              only: /^.*/
 
   build-musl:
     jobs:
