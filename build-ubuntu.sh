@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Get tag
+GIT_TAG=`echo $(git describe --tags --abbrev=0)`
+echo "Tag is $GIT_TAG"
+
 # Dependencies
 sudo apt update
 sudo apt install make gcc libperl-dev wget curl

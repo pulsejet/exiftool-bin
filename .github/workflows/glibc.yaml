@@ -1,7 +1,9 @@
-name: Build glibc binary
+name: Build glibc binaries
+
 on:
   push:
-    branches: [ main ]
+    tags:
+      - '*'
 
 jobs:
   build-glibc-amd64:
@@ -13,7 +15,11 @@ jobs:
 
       - run: ./build-ubuntu.sh
 
-      - uses: actions/upload-artifact@v3
+      - name: Upload to releases
+        uses: svenstaro/upload-release-action@v2
+        id: attach_to_release
         with:
-          name: exiftool-glibc-amd64
-          path: exiftool.exe
+          file: exiftool.exe
+          asset_name: exiftool-glibc-amd64
+          tag: ${{ github.ref }}
+          overwrite: true
