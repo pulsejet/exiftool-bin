@@ -1,0 +1,11 @@
+name: Build glibc binary
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-glibc-x64:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - run: ./build-ubuntu.sh
