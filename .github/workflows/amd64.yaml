@@ -44,6 +44,6 @@ jobs:
         id: attach_to_release
         with:
           file: exiftool.exe
-          asset_name: exiftool-${{ matrix.clib }}-amd64
+          asset_name: exiftool-amd64-${{ matrix.clib }}
           tag: ${{ github.ref }}
           overwrite: true
