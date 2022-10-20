@@ -40,6 +40,11 @@ jobs:
       - name: Build
         run: ./build.sh
 
+      - uses: actions/upload-artifact@v3
+        with:
+          name: cpanm-log-${{ matrix.libc }}.zip
+          path: cpanm-log.zip
+
       - name: Upload to releases
         uses: svenstaro/upload-release-action@v2
         id: attach_to_release
@@ -48,8 +53,3 @@ jobs:
           asset_name: exiftool-amd64-${{ matrix.libc }}
           tag: ${{ github.ref }}
           overwrite: true
-
-      - uses: actions/upload-artifact@v3
-        with:
-          name: cpanm-log-${{ matrix.libc }}.zip
-          path: cpanm-log.zip
