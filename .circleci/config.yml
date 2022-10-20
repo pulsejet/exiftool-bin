@@ -1,0 +1,17 @@
+version: 2.1
+
+jobs:
+  build-medium:
+    machine:
+      image: ubuntu-2004:202101-01
+    resource_class: arm.medium
+    steps:
+      - run: |
+          apt-get update
+          apt-get install -y make gcc libperl-dev wget curl sudo unzip zip git
+          ./build.sh
+
+workflows:
+  build:
+    jobs:
+      - build-medium
