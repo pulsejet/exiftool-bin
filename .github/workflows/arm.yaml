@@ -49,6 +49,7 @@ jobs:
 
           run: |
             cd /work
+            git config --global --add safe.directory /work
             ./build.sh
 
       - name: Upload to releases
@@ -62,5 +63,5 @@ jobs:
 
       - uses: actions/upload-artifact@v3
         with:
-          name: cpanm_log.zip
-          path: cpanm_log.zip
+          name: cpanm-log-${{ matrix.libc }}.zip
+          path: cpanm-log.zip
