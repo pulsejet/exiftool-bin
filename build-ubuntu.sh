@@ -19,3 +19,5 @@ cd exiftool-*
 # Build
 ARGS=`awk '!/^#/ && !/Win32/' pp_build_exe.args | tr '\n' ' '`
 pp $ARGS
+mv exiftool.exe ../
+echo 'Built successfully'
