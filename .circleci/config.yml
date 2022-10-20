@@ -24,5 +24,7 @@ workflows:
     jobs:
       - build-glibc:
           filters:
-              tags:
-                only: /.*/
+            branches:
+              ignore: /.*/
+            tags:
+              only: /.*/
