@@ -5,7 +5,7 @@ sudo apt update
 sudo apt install make gcc libperl-dev wget curl
 
 # Install cpanm
-sudo curl -L http://cpanmin.us | perl - --self-upgrade
+curl -L http://cpanmin.us | sudo perl - --self-upgrade
 
 # Perl modules
 sudo cpanm Archive::Zip PAR PAR::Packer IO::String
