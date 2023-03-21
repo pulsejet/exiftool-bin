@@ -8,8 +8,8 @@ cpanm Archive::Zip PAR PAR::Packer IO::String
 zip -y -q -r cpanm-log.zip ~/.cpanm/
 
 # Get repo
-wget -O exiftool.zip https://github.com/exiftool/exiftool/archive/refs/tags/12.50.zip
-unzip exiftool.zip
+wget -O exiftool.zip https://github.com/exiftool/exiftool/archive/refs/tags/12.58.zip
+unzip -q exiftool.zip
 rm exiftool.zip
 cd exiftool-*
 rm -rf windows_exiftool html t
