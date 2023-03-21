@@ -12,6 +12,7 @@ wget -O exiftool.zip https://github.com/exiftool/exiftool/archive/refs/tags/12.5
 unzip exiftool.zip
 rm exiftool.zip
 cd exiftool-*
+rm -rf windows_exiftool html t
 
 # Build
 ARGS=`awk '!/^#/ && !/Win32/' pp_build_exe.args | tr '\n' ' '`
