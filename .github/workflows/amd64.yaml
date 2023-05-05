@@ -15,7 +15,7 @@ jobs:
         include:
           - container: ubuntu:18.04
             libc: glibc
-          - container: alpine:latest
+          - container: alpine:3.12
             libc: musl
 
     container:
