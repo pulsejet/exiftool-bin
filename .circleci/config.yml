@@ -25,7 +25,7 @@ jobs:
       - checkout
 
       - run: |
-          docker run -it --rm -v "$PWD":/work -w /work alpine:latest sh build-alpine.sh
+          docker run -it --rm -v "$PWD":/work -w /work alpine:3.12 sh build-alpine.sh
           mv exiftool.exe exiftool-aarch64-musl
 
       - persist_to_workspace:

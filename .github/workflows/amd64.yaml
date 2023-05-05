@@ -30,7 +30,7 @@ jobs:
         run: bash build-ubuntu.sh
 
       - name: Alpine Build
-        if: ${{ matrix.container == 'alpine:latest' }}
+        if: ${{ matrix.container == 'alpine:3.12' }}
         run: sh build-alpine.sh
 
       - name: Upload to releases
