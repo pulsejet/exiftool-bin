@@ -4,7 +4,8 @@
 curl -L http://cpanmin.us | perl - --self-upgrade
 
 # Perl modules
-cpanm Archive::Zip PAR PAR::Packer IO::String
+# https://github.com/exiftool/exiftool/blob/master/windows_exiftool
+cpanm Archive::Zip PAR PAR::Packer IO::String Compress::Raw::Lzma IO::Compress::Brotli IO::Uncompress::Brotli
 zip -y -q -r cpanm-log.zip ~/.cpanm/
 
 # Get repo
