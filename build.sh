@@ -5,7 +5,7 @@ curl -L http://cpanmin.us | perl - --self-upgrade
 
 # Perl modules
 # https://github.com/exiftool/exiftool/blob/master/windows_exiftool
-cpanm Archive::Zip PAR PAR::Packer IO::String Compress::Raw::Lzma IO::Compress::Brotli IO::Uncompress::Brotli
+cpanm Archive::Zip PAR PAR::Packer IO::String
 zip -y -q -r cpanm-log.zip ~/.cpanm/
 
 # Get repo
@@ -16,7 +16,7 @@ cd exiftool-*
 rm -rf windows_exiftool html t
 
 # Build
-ARGS=`awk '!/^#/ && !/Win32/' pp_build_exe.args | tr '\n' ' '`
+ARGS=`awk '!/^#/ && !/Win32|Brotli/' pp_build_exe.args | tr '\n' ' '`
 pp $ARGS
 mv exiftool.exe ../
 echo 'Built successfully'
