@@ -52,7 +52,6 @@ jobs:
             && echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
             && sudo apt update \
             && sudo apt install gh -y
-          gh --version
 
       - name: Alpine Deps
         if: startsWith(matrix.container, 'alpine:')
@@ -60,7 +59,6 @@ jobs:
           echo "http://dl-cdn.alpinelinux.org/alpine/v3.14/community" >> /etc/apk/repositories
           apk update
           apk add bash curl wget make gcc perl perl-utils perl-dev unzip zip musl-dev git github-cli
-          gh --version
 
       - name: Build
         run: |
