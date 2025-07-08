@@ -31,16 +31,26 @@ jobs:
       image: ${{ matrix.container }}
 
     steps:
+      - name: Ubuntu Deps
+        if: ${{ matrix.container ~= 'ubuntu:' }}
+        run: |
+          apt-get update
+          apt-get install -y make gcc libperl-dev wget curl sudo unzip zip git
+
+      - name: Alpine Deps
+        if: ${{ matrix.container ~= 'alpine:' }}
+        run: |
+          apk update
+          apk add bash curl wget make gcc perl perl-utils perl-dev unzip zip musl-dev git
+
       - name: Checkout
-        uses: actions/checkout@v3
+        run: |
+          git clone https://github.com/${{ github.repository }} repo
+          cd repo
+          git checkout ${{ github.sha }}
 
-      - name: Ubuntu Build
-        if: ${{ matrix.container == 'ubuntu:20.04' }}
-        run: bash build-ubuntu.sh
-
-      - name: Alpine Build
-        if: ${{ matrix.container == 'alpine:3.12' }}
-        run: sh build-alpine.sh
+      - name: Build
+        run: sh build.sh
 
       - name: Upload to releases
         uses: svenstaro/upload-release-action@2.11.2
