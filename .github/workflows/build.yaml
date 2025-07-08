@@ -43,14 +43,12 @@ jobs:
           apk update
           apk add bash curl wget make gcc perl perl-utils perl-dev unzip zip musl-dev git
 
-      - name: Checkout
+      - name: Build
         run: |
           git clone https://github.com/${{ github.repository }} repo
           cd repo
           git checkout ${{ github.sha }}
-
-      - name: Build
-        run: sh build.sh
+          sh build.sh
 
       - name: Upload to releases
         uses: svenstaro/upload-release-action@2.11.2
