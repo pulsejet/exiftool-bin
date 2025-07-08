@@ -38,7 +38,7 @@ jobs:
         if: startsWith(matrix.container, 'ubuntu:')
         run: |
           apt-get update
-          apt-get install -y make gcc libperl-dev wget curl sudo unzip zip git gnupg2
+          apt-get install -y make gcc libperl-dev wget curl sudo unzip zip git gnupg2 software-properties-common
 
           apt-key adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0
           apt-add-repository https://cli.github.com/packages
