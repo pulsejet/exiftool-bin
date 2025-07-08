@@ -1,0 +1,84 @@
+name: build
+
+permissions:
+  contents: write
+
+on:
+  push:
+    branches:
+      - '*'
+  release:
+    types: [published]
+
+jobs:
+  build:
+    name: ${{ matrix.arch }}-${{ matrix.libc }}
+    runs-on: ${{ matrix.host }}
+
+    env:
+      DEBIAN_FRONTEND: noninteractive 
+
+    strategy:
+      matrix:
+        include:
+          - container: ubuntu:20.04
+            libc: glibc
+            host: ubuntu-24.04
+            arch: amd64
+          - container: ubuntu:20.04
+            libc: glibc
+            host: ubuntu-24.04-arm
+            arch: arm64
+          - container: alpine:3.12
+            libc: musl
+            host: ubuntu-24.04
+            arch: amd64
+          - container: alpine:3.12
+            libc: musl
+            host: ubuntu-24.04-arm
+            arch: arm64
+
+    container:
+      image: ${{ matrix.container }}
+
+    steps:
+      - name: Ubuntu Deps
+        if: startsWith(matrix.container, 'ubuntu:')
+        run: |
+          apt-get update
+          apt-get install -y make gcc libperl-dev wget curl sudo unzip zip git gnupg2 software-properties-common
+
+          (type -p wget >/dev/null || (sudo apt update && sudo apt install wget -y)) \
+            && sudo mkdir -p -m 755 /etc/apt/keyrings \
+            && out=$(mktemp) && wget -nv -O$out https://cli.github.com/packages/githubcli-archive-keyring.gpg \
+            && cat $out | sudo tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null \
+            && sudo chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg \
+            && sudo mkdir -p -m 755 /etc/apt/sources.list.d \
+            && echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
+            && sudo apt update \
+            && sudo apt install gh -y
+
+      - name: Alpine Deps
+        if: startsWith(matrix.container, 'alpine:')
+        run: |
+          echo "http://dl-cdn.alpinelinux.org/alpine/v3.14/community" >> /etc/apk/repositories
+          apk update
+          apk add bash curl wget make gcc perl perl-utils perl-dev unzip zip musl-dev git github-cli
+
+      - name: Build
+        run: |
+          git clone https://github.com/${{ github.repository }} repo
+          cd repo
+          git checkout ${{ github.sha }}
+          bash build.sh
+
+      - name: Upload to releases
+        if: ${{ github.event_name == 'release' }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cd repo
+          mv exiftool.exe exiftool-${{ matrix.arch }}-${{ matrix.libc }}
+          gh release upload "${{ github.ref_name }}" \
+            "exiftool-${{ matrix.arch }}-${{ matrix.libc }}" \
+            --clobber
