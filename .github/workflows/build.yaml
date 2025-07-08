@@ -75,6 +75,5 @@ jobs:
           mv repo/exiftool.exe ./exiftool-${{ matrix.arch }}-${{ matrix.libc }}
           gh release create "${{ github.ref_name }}" \
             --title "Release ${{ github.ref_name }}" \
-            --generate-notes \
             --attach "exiftool-${{ matrix.arch }}-${{ matrix.libc }}" \
             --overwrite
