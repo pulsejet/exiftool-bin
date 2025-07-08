@@ -12,7 +12,7 @@ on:
 
 jobs:
   build:
-    name: ${{ matrix.arch }}-${{ matrix.libc }}
+    name: ${{ matrix.slug }}
     runs-on: ${{ matrix.host }}
 
     env:
@@ -22,21 +22,17 @@ jobs:
       matrix:
         include:
           - container: ubuntu:20.04
-            libc: glibc
             host: ubuntu-24.04
-            arch: amd64
+            slug: amd64-glibc
           - container: ubuntu:20.04
-            libc: glibc
             host: ubuntu-24.04-arm
-            arch: arm64
+            slug: aarch64-glibc
           - container: alpine:3.12
-            libc: musl
             host: ubuntu-24.04
-            arch: amd64
+            slug: amd64-musl
           - container: alpine:3.12
-            libc: musl
             host: ubuntu-24.04-arm
-            arch: arm64
+            slug: aarch64-musl
 
     container:
       image: ${{ matrix.container }}
@@ -78,7 +74,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           cd repo
-          mv exiftool.exe exiftool-${{ matrix.arch }}-${{ matrix.libc }}
+          mv exiftool.exe exiftool-${{ matrix.slug }}
           gh release upload "${{ github.ref_name }}" \
-            "exiftool-${{ matrix.arch }}-${{ matrix.libc }}" \
+            "exiftool-${{ matrix.slug }}" \
             --clobber
