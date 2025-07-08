@@ -37,17 +37,22 @@ jobs:
       - name: Ubuntu Deps
         if: ${{ matrix.container == 'ubuntu:20.04' }}
         run: |
+          apt-get update
+          apt-get install -y make gcc libperl-dev wget curl sudo unzip zip git gnupg2
+
           apt-key adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0
           apt-add-repository https://cli.github.com/packages
           apt-get update
-          apt-get install -y make gcc libperl-dev wget curl sudo unzip zip git gh
           gh --version
 
       - name: Alpine Deps
         if: ${{ matrix.container == 'alpine:3.12' }}
         run: |
           apk update
-          apk add bash curl wget make gcc perl perl-utils perl-dev unzip zip musl-dev git github-cli
+          apk add bash curl wget make gcc perl perl-utils perl-dev unzip zip musl-dev git
+
+          echo "https://dl-cdn.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories
+          apk add github-cli
           gh --version
 
       - name: Build
