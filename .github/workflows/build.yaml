@@ -10,6 +10,9 @@ jobs:
     name: ${{ matrix.arch }}-${{ matrix.libc }}
     runs-on: ${{ matrix.host }}
 
+    env:
+      DEBIAN_FRONTEND: noninteractive 
+
     strategy:
       matrix:
         include:
