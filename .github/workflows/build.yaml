@@ -1,22 +1,39 @@
-name: amd64
+name: build
 
 on:
   push:
+    branches:
+      - main
     tags:
       - '*'
+  pull_request:
+    branches:
+      - main
 
 jobs:
-  build-amd64:
-    name: amd64-${{ matrix.libc }}
-    runs-on: ubuntu-latest
+  build:
+    name: ${{ matrix.arch }}-${{ matrix.libc }}
+    runs-on: ${{ matrix.host }}
 
     strategy:
       matrix:
         include:
           - container: ubuntu:20.04
             libc: glibc
+            host: ubuntu-24.04
+            arch: amd64
+          - container: ubuntu:20.04
+            libc: glibc
+            host: ubuntu-24.04-arm
+            arch: arm64
           - container: alpine:3.12
             libc: musl
+            host: ubuntu-24.04
+            arch: amd64
+          - container: alpine:3.12
+            libc: musl
+            host: ubuntu-24.04-arm
+            arch: arm64
 
     container:
       image: ${{ matrix.container }}
@@ -36,8 +53,9 @@ jobs:
       - name: Upload to releases
         uses: svenstaro/upload-release-action@2.11.2
         id: attach_to_release
+        if: ${{ github.event_name == 'push' && startsWith(github.ref, 'refs/tags/') }}
         with:
           file: exiftool.exe
-          asset_name: exiftool-amd64-${{ matrix.libc }}
+          asset_name: exiftool-${{ matrix.arch }}-${{ matrix.libc }}
           tag: ${{ github.ref }}
           overwrite: true
