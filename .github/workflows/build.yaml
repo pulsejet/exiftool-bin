@@ -84,3 +84,4 @@ jobs:
           mv exiftool.exe exiftool-${{ matrix.arch }}-${{ matrix.libc }}
           gh release upload "${{ github.ref_name }}" \
             "exiftool-${{ matrix.arch }}-${{ matrix.libc }}" \
+            --clobber
