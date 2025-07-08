@@ -32,13 +32,13 @@ jobs:
 
     steps:
       - name: Ubuntu Deps
-        if: ${{ matrix.container ~= 'ubuntu:' }}
+        if: ${{ matrix.container == 'ubuntu:20.04' }}
         run: |
           apt-get update
           apt-get install -y make gcc libperl-dev wget curl sudo unzip zip git
 
       - name: Alpine Deps
-        if: ${{ matrix.container ~= 'alpine:' }}
+        if: ${{ matrix.container == 'alpine:3.12' }}
         run: |
           apk update
           apk add bash curl wget make gcc perl perl-utils perl-dev unzip zip musl-dev git
