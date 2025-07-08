@@ -1,5 +1,8 @@
 name: build
 
+permissions:
+  contents: write
+
 on: [push, pull_request]
 
 jobs:
@@ -34,21 +37,25 @@ jobs:
       - name: Ubuntu Deps
         if: ${{ matrix.container == 'ubuntu:20.04' }}
         run: |
+          apt-key adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0
+          apt-add-repository https://cli.github.com/packages
           apt-get update
-          apt-get install -y make gcc libperl-dev wget curl sudo unzip zip git
+          apt-get install -y make gcc libperl-dev wget curl sudo unzip zip git gh
+          gh --version
 
       - name: Alpine Deps
         if: ${{ matrix.container == 'alpine:3.12' }}
         run: |
           apk update
-          apk add bash curl wget make gcc perl perl-utils perl-dev unzip zip musl-dev git
+          apk add bash curl wget make gcc perl perl-utils perl-dev unzip zip musl-dev git github-cli
+          gh --version
 
       - name: Build
         run: |
           git clone https://github.com/${{ github.repository }} repo
           cd repo
           git checkout ${{ github.sha }}
-          sh build.sh
+          bash build.sh
 
       - name: Upload to releases
         uses: svenstaro/upload-release-action@2.11.2
