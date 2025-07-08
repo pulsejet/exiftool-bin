@@ -3,13 +3,13 @@ version: 2.1
 jobs:
   build-glibc:
     machine:
-      image: ubuntu-2004:current
+      image: ubuntu-2404:current
     resource_class: arm.medium
     steps:
       - checkout
 
       - run: |
-          docker run -it --rm -v "$PWD":/work -w /work ubuntu:18.04 bash build-ubuntu.sh
+          docker run -it --rm -v "$PWD":/work -w /work ubuntu:20.04 bash build-ubuntu.sh
           sudo mv exiftool.exe exiftool-aarch64-glibc
 
       - persist_to_workspace:
@@ -19,7 +19,7 @@ jobs:
 
   build-musl:
     machine:
-      image: ubuntu-2004:current
+      image: ubuntu-2404:current
     resource_class: arm.medium
     steps:
       - checkout
@@ -35,7 +35,7 @@ jobs:
 
   publish-github-release:
     docker:
-      - image: cimg/go:1.17
+      - image: cimg/go:1.24
     steps:
       - attach_workspace:
           at: ./artifacts
