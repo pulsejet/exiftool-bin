@@ -16,21 +16,21 @@ jobs:
     runs-on: ${{ matrix.host }}
 
     env:
-      DEBIAN_FRONTEND: noninteractive 
+      DEBIAN_FRONTEND: noninteractive
 
     strategy:
       matrix:
         include:
-          - container: ubuntu:20.04
+          - container: ubuntu:22.04
             host: ubuntu-24.04
             slug: amd64-glibc
-          - container: ubuntu:20.04
+          - container: ubuntu:22.04
             host: ubuntu-24.04-arm
             slug: aarch64-glibc
-          - container: alpine:3.12
+          - container: alpine:3.14
             host: ubuntu-24.04
             slug: amd64-musl
-          - container: alpine:3.12
+          - container: alpine:3.14
             host: ubuntu-24.04-arm
             slug: aarch64-musl
 

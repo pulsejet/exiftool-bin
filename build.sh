@@ -9,7 +9,7 @@ cpanm Archive::Zip PAR PAR::Packer IO::String
 zip -y -q -r cpanm-log.zip ~/.cpanm/
 
 # Get repo
-wget -O exiftool.zip https://github.com/exiftool/exiftool/archive/refs/tags/13.30.zip
+wget -O exiftool.zip https://github.com/exiftool/exiftool/archive/refs/tags/13.44.zip
 unzip -q exiftool.zip
 rm exiftool.zip
 cd exiftool-*
