@@ -21,16 +21,16 @@ jobs:
     strategy:
       matrix:
         include:
-          - container: ubuntu:22.04
+          - container: ubuntu:20.04
             host: ubuntu-24.04
             slug: amd64-glibc
-          - container: ubuntu:22.04
+          - container: ubuntu:20.04
             host: ubuntu-24.04-arm
             slug: aarch64-glibc
-          - container: alpine:3.14
+          - container: alpine:3.12
             host: ubuntu-24.04
             slug: amd64-musl
-          - container: alpine:3.14
+          - container: alpine:3.12
             host: ubuntu-24.04-arm
             slug: aarch64-musl
 
@@ -57,7 +57,7 @@ jobs:
       - name: Alpine Deps
         if: startsWith(matrix.container, 'alpine:')
         run: |
-          echo "http://dl-cdn.alpinelinux.org/alpine/v3.14/community" >> /etc/apk/repositories
+          echo "http://dl-cdn.alpinelinux.org/alpine/v3.20/community" >> /etc/apk/repositories
           apk update
           apk add bash curl wget make gcc perl perl-utils perl-dev unzip zip musl-dev git github-cli
 
