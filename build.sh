@@ -15,8 +15,14 @@ rm exiftool.zip
 cd exiftool-*
 rm -rf windows_exiftool html t
 
-# Build
+# Build fully-packed exiftool (interpreter + deps + exiftool code)
 ARGS=`awk '!/^#/ && !/Win32|Brotli/' pp_build_exe.args | tr '\n' ' '`
 pp $ARGS
 mv exiftool.exe ../
+
+# Build generic packed-perl binary (interpreter + deps, no app script packed).
+# Packs the eperl stub, which runs an external script at run time:
+RUNTIME_DEPS=`awk '/^-M / && !/Win32|Brotli/' pp_build_exe.args | tr '\n' ' '`
+pp --reusable -o eperl.exe -T eperl $RUNTIME_DEPS ../eperl.pl
+mv eperl.exe ../
 echo 'Built successfully'

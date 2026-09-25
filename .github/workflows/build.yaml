@@ -75,6 +75,8 @@ jobs:
         run: |
           cd repo
           mv exiftool.exe exiftool-${{ matrix.slug }}
+          mv eperl.exe eperl-${{ matrix.slug }}
           gh release upload "${{ github.ref_name }}" \
             "exiftool-${{ matrix.slug }}" \
+            "eperl-${{ matrix.slug }}" \
             --clobber
