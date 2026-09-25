@@ -23,6 +23,6 @@ mv exiftool.exe ../
 # Build generic packed-perl binary (interpreter + deps, no app script packed).
 # Packs the eperl stub, which runs an external script at run time:
 RUNTIME_DEPS=`awk '/^-M / && !/Win32|Brotli/' pp_build_exe.args | tr '\n' ' '`
-pp --reusable -o eperl.exe -T eperl $RUNTIME_DEPS ../eperl.pl
+pp --reusable -o eperl.exe -T eperl $RUNTIME_DEPS -M JSON::PP -M FindBin ../eperl.pl
 mv eperl.exe ../
 echo 'Built successfully'
